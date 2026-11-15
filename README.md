@@ -1,172 +1,279 @@
-# Python Functions and Lists Assessment
+<p align="center"><img src="assets/banner.svg" alt="banner" width="100%"></p>
 
-This repository contains two independent, interactive Python command-line programs for an assessment on **functions, strings, lists, and loops**. Both programs validate user input and show clear, readable results. No additional Python packages are required.
+# Python Conditions & Loops Assessment
 
-## Project structure
+## 1. Project Overview
 
-```text
-python-functions-lists-assessment/
-├── result_card_generator.py
-├── class_marks_analyzer.py
-└── README.md
-```
+Two independent command-line applications solve scholarship decision-making and pharmacy sales reporting problems. Both use standard-library Python and validate their inputs.
 
-## Program 1: Student Result Card Generator
+| Task | File | Topic |
+| --- | --- | --- |
+| 1 — Student Scholarship Eligibility | `student_scholarship_system.py` | Conditional statements (`if`, `elif`, `else`) |
+| 2 — Smart Pharmacy Inventory & Sales | `pharmacy_inventory_system.py` | `for` loops, `range()`, counters, accumulators |
 
-`result_card_generator.py` asks for one student's name, roll number, and marks in five subjects: English, Mathematics, Science, Computer, and Economics. It displays the marks for each subject, total marks out of 500, overall percentage, letter grade, and final Pass/Fail status.
+![Project overview](assets/overview.svg)
 
-- The name is cleaned with `.strip()` and `.title()`.
-- The roll number must contain **digits only**, verified using `.isdigit()`.
-- Every subject mark must be between **0 and 100**.
-- Percentage is calculated to **two decimal places**.
-- A final result is **Fail** if **any subject mark is below 40**, even when the overall percentage is 50 or more.
-- If all subject marks are at least 40, an overall percentage of at least 50 is required to pass.
-
-### Grading policy
-
-| Percentage | Grade |
-|---|---|
-| 90 and above | A+ |
-| 80 to below 90 | A |
-| 70 to below 80 | B |
-| 60 to below 70 | C |
-| 50 to below 60 | D |
-| Below 50 | Fail |
-
-**Important:** The final displayed letter grade is `Fail` whenever the student fails the subject-minimum rule or the overall percentage rule.
-
-### Sample input
+## 2. Folder Structure
 
 ```text
-Enter student name:   aLi  khan  
-Enter roll number (digits only): 1024
-Enter marks for English (0-100): 85
-Enter marks for Mathematics (0-100): 90
-Enter marks for Science (0-100): 78
-Enter marks for Computer (0-100): 92
-Enter marks for Economics (0-100): 80
+python-conditions-loops-assessment/
+├── student_scholarship_system.py
+├── pharmacy_inventory_system.py
+├── README.md
+└── assets/                         # Documentation SVG diagrams
+    ├── banner.svg
+    ├── overview.svg
+    ├── student_scholarship_system_flow.svg
+    ├── pharmacy_inventory_system_flow.svg
+    └── uml_diagram.svg
 ```
 
-### Sample output (main results)
+## 3. Task 1 — Student Scholarship Eligibility System
 
-```text
-Student Name : Ali  Khan
-Roll Number  : 1024
-English                  85.00
-Mathematics              90.00
-Science                  78.00
-Computer                 92.00
-Economics                80.00
-Total Marks  : 425.00 / 500
-Percentage   : 85.00%
-Letter Grade : A
-Final Status : Pass
-```
+### Summary
 
-## Program 2: Class Marks Analyzer
+The program collects one student's details, applies three mandatory scholarship conditions, and prints a complete evaluation report. It independently records **all** eligibility failures rather than stopping at the first.
 
-`class_marks_analyzer.py` asks how many students are in the class, then collects one name and one mark per student. It uses the required **two separate lists** (`student_names` and `student_marks`) and `.append()` to store the data.
+### Rules / Requirements
 
-It reports the class average, highest and lowest marks (including **all** students tied at either extreme), number passing (**50 or above**), number failing (**below 50**), students scoring strictly above average, and all marks sorted from highest to lowest.
+- Valid academic marks: **0–100%**; scholarship minimum: **80%**.
+- Valid attendance: **0–100%**; scholarship minimum: **85%**.
+- Monthly family income must be **Rs. 50,000 or less** and never negative.
+- If all requirements pass: **Full Scholarship** for marks **≥90%**, otherwise **Partial Scholarship** for marks **80% to below 90%**.
+- If a requirement fails: **Not Eligible**, with every reason shown.
 
-### Sample input
+### Program Flow
 
-```text
-How many students are in the class? 4
-Enter name of student 1: Ali
-Enter marks for Ali (0-100): 80
-Enter name of student 2: Sara
-Enter marks for Sara (0-100): 60
-Enter name of student 3: Hamza
-Enter marks for Hamza (0-100): 80
-Enter name of student 4: Ayesha
-Enter marks for Ayesha (0-100): 40
-```
+![Scholarship program flow](assets/student_scholarship_system_flow.svg)
 
-### Sample output (main results)
+### Code Methods Description
 
-```text
-Number of students : 4
-Class average      : 65.00
-Highest marks      : 80.00
-Top student(s)     : Ali, Hamza
-Lowest marks       : 40.00
-Lowest student(s)  : Ayesha
-Passing students   : 3
-Failing students   : 1
+| Function | Purpose |
+| --- | --- |
+| `get_nonempty_text()` | Reads and normalizes a nonblank student name. |
+| `get_decimal_in_range()` | Validates percentages and nonnegative income. |
+| `get_ineligibility_reasons()` | Builds a list of every unmet scholarship rule. |
+| `get_scholarship_type()` | Selects full, partial, or no scholarship. |
+| `print_evaluation_report()` | Prints details, classification, and reasons. |
+| `main()` | Collects values and coordinates evaluation. |
 
-Students above class average:
-  Ali: 80.00
-  Hamza: 80.00
+### Input Validation
 
-All marks, highest to lowest:
-  80.00
-  80.00
-  60.00
-  40.00
-```
+Empty names, invalid numeric text, `NaN`, infinity, out-of-range percentages, and negative income trigger clear errors and a repeat prompt. Numeric calculations use `decimal.Decimal`.
 
-## Python concepts and functions used
+### Expected Results
 
-- **Functions:** `def`, parameters, `return`, and descriptive function names.
-- **String handling:** `.strip()`, `.title()`, `.isdigit()`, and f-string formatting.
-- **Lists:** creation with `[]`, `.append()`, `len()`, `sum()`, `max()`, `min()`, and `sorted()`.
-- **Loops and conditions:** `for`, `while`, `if`, `elif`-style conditional decisions, and comparisons.
-- **Input validation:** `try`/`except ValueError`, range checks, and repeated input prompts.
-- **Extra useful functions:** `any()` and `zip()` in the result card, and `', '.join()` for class rankings.
+- **Eligible, 90–100% marks:** Full Scholarship (if attendance and income also pass).
+- **Eligible, 80–below 90% marks:** Partial Scholarship (if attendance and income also pass).
+- **Any failed criterion:** Not Eligible with one to three explicit reasons.
 
-Examples of custom functions include `get_valid_marks(subject)`, `calculate_percentage(total, max_total)`, `get_grade(percentage)`, `format_name(name)`, `get_valid_mark(student_name)`, and `show_class_analysis(student_names, student_marks)`.
+## 4. Task 2 — Smart Pharmacy Inventory & Sales Management System
 
-## How to run
+### Summary
 
-1. Install **Python 3** and make sure the `python` command works in your terminal.
-2. Download or clone this repository and open a terminal in its folder.
-3. Run either file independently:
+A `for` loop processes the entered number of distinct medicines. For each medicine, the program validates a stock-and-sale record, rejects sales above available stock, updates remaining stock, and accumulates successful revenue.
+
+### Rules / Requirements
+
+- Ask for the number of medicines (**0 or more**); process each using `for` and `range()`.
+- Collect name, available stock, unit price, and requested quantity sold.
+- **Reject sales exceeding stock** without changing that medicine's stock or increasing revenue.
+- Show revenue and remaining stock for an accepted sale; show remaining stock for a rejected sale.
+- Warn and count restocking needs when **remaining stock < 10**. A rejected sale may still leave a low-stock warning.
+- Print medicine count, total accepted sales revenue, and number of distinct medicines needing restock.
+
+### Program Flow
+
+![Pharmacy program flow](assets/pharmacy_inventory_system_flow.svg)
+
+### Code Methods Description
+
+| Function | Purpose |
+| --- | --- |
+| `get_nonnegative_integer()` | Validates medicine count, stock, and sold quantities. |
+| `get_medicine_name()` | Rejects blank and case-insensitive duplicate names. |
+| `get_unit_price()` | Validates a nonnegative price to two decimal places. |
+| `process_medicine()` | Accepts or rejects one sale, computes remaining stock and restock flag. |
+| `print_final_report()` | Prints processed count, total revenue, and restock count. |
+| `main()` | Uses `range()`, the revenue accumulator, and restock counter. |
+
+### Input Validation
+
+Medicine counts, stock, and sale quantities must be whole numbers ≥0. Blank/duplicate medicine names, negative or nonnumeric prices, nonfinite values, and prices with more than two nonzero decimal places are rejected with repeat prompts. Zero price and zero sold quantity are permitted.
+
+### Expected Results
+
+- **Accepted sale:** Amount = price × quantity; remaining stock = original stock − quantity.
+- **Rejected sale:** Revenue = Rs. 0.00 for that medicine; original stock stays unchanged.
+- **Under 10 units left:** Low-stock warning and one addition to the restock count.
+- **Zero medicines:** A final report with zero processed, revenue, and restocking needs.
+
+## 5. UML Diagram
+
+A **UML-style module diagram** is appropriate because both applications are procedural rather than class-based; it groups each source file with its constants, functions, and `main()`-initiated call chain.
+
+![Procedural module diagram](assets/uml_diagram.svg)
+
+## 6. Concepts and Techniques Used
+
+- `if`, `elif`, `else` with inclusive and exclusive boundary conditions.
+- `for` and `range()` for repeated medicine processing.
+- Counters and revenue accumulators; arithmetic and comparison operators.
+- `input()`, `print()`, helper functions, and formatted reports.
+- `while`-based re-prompting for invalid inputs.
+- `decimal.Decimal` for exact decimal arithmetic, money, and percentages.
+- Lists for multiple scholarship rejection reasons; a set for unique medicine names.
+- Named constants instead of embedded business thresholds.
+- Standard library only; no external installation required.
+
+## 7. How to Run
+
+**Requirements:** Python **3.9+**; any Windows, macOS, or Linux terminal. No third-party packages.
 
 ```bash
-python result_card_generator.py
+git clone https://github.com/YOUR_GITHUB_USERNAME/python-conditions-loops-assessment.git
+cd python-conditions-loops-assessment
 ```
+
+Replace `YOUR_GITHUB_USERNAME` in the clone command and the author link with your actual GitHub username after publishing the repository.
 
 ```bash
-python class_marks_analyzer.py
+# Task 1: scholarship evaluation
+python student_scholarship_system.py
+
+# Task 2: pharmacy sales
+python pharmacy_inventory_system.py
 ```
 
-On some systems, use `python3` instead of `python`.
+**Alternate Python commands:** `python3 student_scholarship_system.py` and `python3 pharmacy_inventory_system.py` (macOS/Linux), or `py student_scholarship_system.py` and `py pharmacy_inventory_system.py` (Windows).
 
-## Suggested test scenarios
+## 8. Sample Execution
 
-| Program | Inputs to test | Expected behavior |
-|---|---|---|
-| Result card | Five marks of 95 | Grade A+, Pass |
-| Result card | 100, 100, 100, 100, 39 | Fail (subject below 40) |
-| Result card | Five marks of 40 | Fail (overall percentage 40%) |
-| Result card | Invalid roll number such as `abc` | Re-prompts for digits |
-| Result card | Invalid marks such as `-1`, `101`, or `hello` | Re-prompts for valid marks |
-| Class analyzer | 80, 60, 80, 40 | Reports both students tied at highest marks |
-| Class analyzer | 50, 49 | One pass, one fail |
-| Class analyzer | 70, 70, 70 | No student above average; all tied for highest/lowest |
-| Class analyzer | Class size `0` or invalid marks | Re-prompts without crashing |
+The following outputs were captured from actual CLI runs with scripted standard input. Because the test runner supplies input without echoing it, consecutive prompts appear on the same line.
 
-## How to upload to GitHub
+### Task 1 — Full scholarship (success)
 
-After creating a new **public** GitHub repository named `python-functions-lists-assessment`, open the project folder in VS Code's terminal and run:
+**Inputs in order:** `Ali Khan`, `95`, `90`, `30000`
 
-```bash
-git init
-git add result_card_generator.py class_marks_analyzer.py README.md
-git commit -m "Complete Python functions and lists assessment"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/python-functions-lists-assessment.git
-git push -u origin main
+```text
+UNIVERSITY SCHOLARSHIP ELIGIBILITY SYSTEM
+Student name: Academic marks (%): Attendance (%): Monthly family income (Rs.): 
+=================================================
+           SCHOLARSHIP EVALUATION REPORT
+=================================================
+Student name          : Ali Khan
+Academic marks        : 95.00%
+Attendance            : 90.00%
+Monthly family income : Rs. 30,000.00
+-------------------------------------------------
+Decision              : Full Scholarship
+All mandatory eligibility criteria are satisfied.
+=================================================
 ```
 
-Replace `YOUR_USERNAME` with your GitHub username. If you already cloned an empty repository from GitHub, `git remote add origin` may be unnecessary; verify using `git remote -v`.
+### Task 1 — Three unmet conditions (failure)
 
-## LMS submission checklist
+**Inputs in order:** `Noor`, `70`, `72`, `60000`
 
-- [ ] GitHub repository URL (publicly accessible)
-- [ ] `result_card_generator.py`
-- [ ] `class_marks_analyzer.py`
-- [ ] `README.md`
+```text
+UNIVERSITY SCHOLARSHIP ELIGIBILITY SYSTEM
+Student name: Academic marks (%): Attendance (%): Monthly family income (Rs.): 
+=================================================
+           SCHOLARSHIP EVALUATION REPORT
+=================================================
+Student name          : Noor
+Academic marks        : 70.00%
+Attendance            : 72.00%
+Monthly family income : Rs. 60,000.00
+-------------------------------------------------
+Decision              : Not Eligible
+Reason(s) for ineligibility:
+  1. Academic marks are below 80%.
+  2. Attendance is below 85%.
+  3. Monthly family income exceeds Rs. 50,000.
+=================================================
+```
 
-Both programs are written as original, standalone examples and include comments for the important logic.
+### Task 2 — Accepted sale, rejected sale, and boundary case
+
+**Inputs in order:** `3`; Paracetamol (`20`, `25.50`, `12`); Ibuprofen (`15`, `40`, `20`); Vitamin C (`10`, `15`, `0`).
+
+```text
+SMART PHARMACY INVENTORY & SALES SYSTEM
+How many different medicines? 
+--- Medicine 1 ---
+Medicine name: Available stock (units): Price per unit (Rs.): Quantity sold (units): SALE ACCEPTED: Paracetamol | Sold: 12 | Amount: Rs. 306.00
+Remaining stock: 8 unit(s)
+LOW STOCK WARNING: Paracetamol is below 10 units.
+
+--- Medicine 2 ---
+Medicine name: Available stock (units): Price per unit (Rs.): Quantity sold (units): SALE REJECTED: Only 15 unit(s) of Ibuprofen available.
+Remaining stock: 15 unit(s)
+
+--- Medicine 3 ---
+Medicine name: Available stock (units): Price per unit (Rs.): Quantity sold (units): SALE ACCEPTED: Vitamin C | Sold: 0 | Amount: Rs. 0.00
+Remaining stock: 10 unit(s)
+
+================================================
+           PHARMACY DAILY SALES REPORT
+================================================
+Medicines processed         : 3
+Total pharmacy revenue      : Rs. 306.00
+Medicines requiring restock : 1
+================================================
+```
+
+### Task 2 — Zero medicines (edge case)
+
+**Input:** `0`
+
+```text
+SMART PHARMACY INVENTORY & SALES SYSTEM
+How many different medicines? 
+================================================
+           PHARMACY DAILY SALES REPORT
+================================================
+Medicines processed         : 0
+Total pharmacy revenue      : Rs. 0.00
+Medicines requiring restock : 0
+================================================
+```
+
+## 9. Test Cases
+
+All **22** cases below were run against the actual Python scripts using standard input. Each completed with exit code 0 and the asserted output.
+
+### Task 1 — Scholarship Tests
+
+| # | Scenario | Inputs | Expected and verified result |
+| --- | --- | --- | --- |
+| 1 | Full scholarship | Ali Khan; 95, 90, 30000 | Full Scholarship |
+| 2 | Partial scholarship / income cap | Sara Ahmed; 85, 90, 50000 | Partial Scholarship |
+| 3 | Marks just below minimum | Ayesha; 79.99, 85, 50000 | Reject: marks below 80% |
+| 4 | Attendance alone fails | Hamza; 90, 84.99, 50000 | Reject: attendance below 85% |
+| 5 | Income alone fails | Fatima; 90, 85, 50000.01 | Reject: income above Rs. 50,000 |
+| 6 | All three conditions fail | Noor; 70, 72, 60000 | All three rejection reasons |
+| 7 | Two failed conditions | Umar; 75, 90, 70000 | Marks + income reasons |
+| 8 | Exact full threshold | Zain; 90, 85, 50000 | Full Scholarship |
+| 9 | Exact partial threshold | Hina; 80, 85, 50000 | Partial Scholarship |
+| 10 | Upper percentages, zero income | Bilal; 100, 100, 0 | Full Scholarship |
+| 11 | Invalid input recovery | Blank name; `abc`; 101; -1; `NaN`; -5; `Infinity`, then valid data | Validation errors; eventually Full Scholarship |
+| 12 | Zero percentages + high income | Ahmed; 0, 0, 100000 | All three rejection reasons |
+
+### Task 2 — Pharmacy Tests
+
+| # | Scenario | Inputs | Expected and verified result |
+| --- | --- | --- | --- |
+| 1 | Mixed accepted/rejected sales | 3 medicines: Paracetamol, Ibuprofen, Vitamin C | Rs. 306.00; 1 restock; rejected oversell |
+| 2 | Zero medicines | Count 0 | 0 processed; Rs. 0.00; 0 restocks |
+| 3 | Exact restock threshold | 10 in stock; sell 0 | Remaining 10; no warning |
+| 4 | Below restock threshold | 9 in stock; sell 0 | Remaining 9; 1 restock |
+| 5 | Sell all available units | 10 in stock; sell 10 at Rs. 3 | Rs. 30.00; remaining 0; 1 restock |
+| 6 | Rejected sale still low stock | 3 in stock; request 4 | Sale rejected; Rs. 0.00; 1 restock |
+| 7 | Invalid values corrected | Count `x`, -1, 2.5; blank name; invalid stock/price/sold entries | Errors; final revenue Rs. 36.50 |
+| 8 | Duplicate name corrected | `Zinc` then `zinc`, corrected to Vitamin D | Duplicate error; revenue Rs. 46.00 |
+| 9 | Zero-priced medicine | 5 units at Rs. 0.00; sell 5 | Accepted; Rs. 0.00; 1 restock |
+| 10 | Two low-stock medicines | A: 4 stock, sell 1; B: 5 stock, sell 1; price Rs. 10 each | Rs. 20.00; 2 restocks |
+
+---
+
