@@ -136,6 +136,4 @@ git commit -m "Implement scholarship and pharmacy assessment"
 git branch -M main
 git remote add origin https://github.com/YOUR_USERNAME/python-conditions-loops-assessment.git
 git push -u origin main
-```
 
-Replace `YOUR_USERNAME` with your GitHub username. Submit the public repository URL and these three source files to your LMS.
