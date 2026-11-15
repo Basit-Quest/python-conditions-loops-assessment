@@ -123,17 +123,4 @@ Each script runs independently and needs no additional files or network connecti
 | Pharmacy | 10 units, sell 0 | Rs. 0 revenue, 10 left, no warning |
 | Pharmacy | Negative stock, decimal quantity, invalid price | Prompt again for the invalid entry |
 
-This is an in-memory daily session tracker, not a database. Stock and revenue are **not** saved between runs, as persistent storage was not required. For real-world financial accounting, decimal currency arithmetic and persistent records would be advisable.
-
-## GitHub submission
-
-Create a **public** repository named `python-conditions-loops-assessment`, open a terminal in this folder, then:
-
-```bash
-git init
-git add student_scholarship_system.py pharmacy_inventory_system.py README.md
-git commit -m "Implement scholarship and pharmacy assessment"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/python-conditions-loops-assessment.git
-git push -u origin main
 
